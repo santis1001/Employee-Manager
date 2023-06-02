@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
 
-const emp_questions = [
+const db_questions = [
     {
         type: 'list',
         name: 'employees_op',

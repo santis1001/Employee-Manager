@@ -11,7 +11,7 @@ const main_questions = [
         name: 'main_menu',
         message: 'What would you like to do?',
         choices: ['Employees Options', 'Roles Options', 'Department Options', 'Database Options', 'Quit']
-    },    
+    },
     {
         type: 'list',
         name: 'quit_op',
@@ -22,15 +22,13 @@ const main_questions = [
 ];
 
 function init() {
-    let ans;
     inquirer.prompt(main_questions).then((answers) => {
-        ans = answers;
-        (ans.quit_op == 'No') ? init() : false ;
-        (ans.main_menu == 'Employees Options') ?  employees.init() : false;
-        (ans.main_menu == 'Roles Options') ?  roles.init() : false;
-        (ans.main_menu == 'Department Options') ?  department.init() : false;
-        (ans.main_menu == 'Database Options') ?  database.init() : false;
-
+        (answers.quit_op == 'No') ? init() : false;
+        (answers.main_menu == 'Employees Options') ? employees.init() : false;
+        (answers.main_menu == 'Roles Options') ? roles.init() : false;
+        (answers.main_menu == 'Department Options') ? department.init() : false;
+        (answers.main_menu == 'Database Options') ? database.init() : false;
+        (answers.quit_op == 'Yes') ? false : init();
     });
 
 }
