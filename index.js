@@ -18,6 +18,7 @@ const login = [
         type: 'input',
         name: 'user',
         message: 'Enter Username:',
+        default: 'root',
         validate: (input) => {
             return (input != '') ? true : 'Enter USER';
         }
@@ -37,6 +38,7 @@ const login = [
         type: 'input',
         name: 'port',
         message: 'Enter Port:',
+        default: '3305',
         validate: (input) => {
             return (input != '') ? true : 'Enter Port information correctly:';
         }
@@ -81,7 +83,6 @@ let db;
 function startConnection(db_cred) {
     return new Promise((resolve, reject) => {
         db = new MYSQL(db_cred.USER, db_cred.PASSWORD, db_cred.PORT);
-        console.log(db);
         const db_con = db.db();
         db_con.connect((err) => {
             if (err) {
@@ -115,7 +116,7 @@ function startMenu() {
                 department_prompt();
                 break;
             case 'Quit':
-                (answers.quit_op === 'No') ? startMenu() : false;
+                (answers.quit_op === 'No') ? startMenu() : process.exit(0);                
                 break;
             default:
                 startMenu();

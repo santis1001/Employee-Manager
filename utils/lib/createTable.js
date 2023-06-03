@@ -1,6 +1,6 @@
-const Table = require('cli-table');
 
 function CreateTable(jsonData) {
+    const Table = require('cli-table');
     const headers = Object.keys(jsonData[0]);
     const table = new Table({
         head: headers
