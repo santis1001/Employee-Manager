@@ -29,25 +29,23 @@ const roles_questions = [
         type: 'list',
         name: 'dep_select_add',
         message: 'Select Role Department: ',
-        choices: [],
+        choices:  ['1','2','3'],
         when: (answers) => answers.roles_op === 'Add Roles',
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'roles_mod',
         message: 'Update Roles\nSelect role: ',
-        when: (answers) => answers.roles_op === 'Update Roles',
-        validate: (input) => {
-            return (input != '') ? true : 'Enter Department name:';
-        },
+        choices: ['1','2','3'],
+        when: (answers) => answers.roles_op === 'Update Roles'        
     },
     {
         type: 'input',
         name: 'title_mod',
-        message: 'Enter Department name: ',
+        message: 'Enter Role title: ',
         when: (answers) => answers.roles_op === 'Update Roles',
         validate: (input) => {
-            return (input != '') ? true : 'Enter Department name:';
+            return (input != '') ? true : 'Enter Rocles title:';
         },
     },
     {
@@ -63,15 +61,15 @@ const roles_questions = [
         type: 'list',
         name: 'dep_select_mod',
         message: 'Select Department: ',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.roles_op === 'Update Roles',
     },
     
     {
         type: 'list',
         name: 'role_select_del',
-        message: 'Delete Departments\nSelect Department: ',
-        choices: [],
+        message: 'Delete Role\nSelect Role: ',
+        choices:  ['1','2','3'],
         when: (answers) => answers.roles_op === 'Delete Roles',
     },
     {
@@ -79,7 +77,7 @@ const roles_questions = [
         name: 'role_confirm_del',
         message: 'Confirm: ',
         choices: ['Yes','No'],
-        when: (answers) => answers.roles_op === 'Delete Roles' && answers.role_select_del != 'Cancel',
+        when: (answers) => answers.roles_op === 'Clear All Roles' && answers.role_select_del != 'Cancel',
     }
 ];
 

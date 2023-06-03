@@ -5,8 +5,10 @@ const roles = require('./utils/Controller/roles.js');
 const department = require('./utils/Controller/department.js');
 const database = require('./utils/Controller/database');
 
-const EmployeeDBHandler = require('./utils/connection/employees_db');
+const EmployeeDBHandler = require('./utils/Connection/employees_db');
 const RolesDBHandler = require('./utils/Connection/roles_db');
+const DepartmentDBHandler = require('./utils/Connection/department_db');
+const DataBaseDBHandler = require('./utils/Connection/database_db');
 
 const MYSQL = require('./utils/connection/mysqlconnection');
 
@@ -169,15 +171,36 @@ function roles_prompt() {
     inquirer.prompt(roles).then((answers) => {
         switch (answers.roles_op) {
             case 'View Roles':
+                RolesDBHandler(db, 'get', null);
                 roles_prompt();
                 break;
             case 'Add Roles':
-                break;
-            case 'Delete Roles':
+                data = {
+                    title: answers.title_add,
+                    salary: answers.salary_add,
+                    department_id: answers.dep_select_add
+                };
+                RolesDBHandler(db, 'add', data);
+                roles_prompt();
                 break;
             case 'Update Roles':
+                data = {
+                    id: answers.roles_mod,
+                    title: answers.title_mod,
+                    salary: answers.salary_mod,
+                    department_id: answers.dep_select_mod
+                };
+                RolesDBHandler(db, 'mod', data);
+                roles_prompt();
+                break;
+            case 'Delete Roles':
+                data = { id: answers.role_select_del };
+                RolesDBHandler(db, 'del', data);
+                roles_prompt();
                 break;
             case 'Clear All Roles':
+                (answers.role_confirm_del == 'Yes') ? (RolesDBHandler(db, 'delAll', null)) : false;
+                roles_prompt();
                 break;
             case 'Go Back':
                 startMenu();
@@ -192,19 +215,32 @@ function department_prompt() {
     inquirer.prompt(department).then((answers) => {
         switch (answers.departments_op) {
             case 'View Departments':
-                department_prompt();
+                DepartmentDBHandler(db, 'get', null);
+                department_prompt()
                 break;
             case 'Add Departments':
-                department_prompt();
-                break;
-            case 'Delete Departments':
-                department_prompt();
+                data = {
+                    name: answers.depname_add,                    
+                };
+                DepartmentDBHandler(db, 'add', data);
+                department_prompt()
                 break;
             case 'Update Departments':
-                department_prompt();
+                data = {
+                    id: answers.dep_select_mod,
+                    name: answers.depname_mod
+                };
+                DepartmentDBHandler(db, 'mod', data);
+                department_prompt()
+                break;
+            case 'Delete Departments':
+                data = { id: answers.dep_select_del };
+                DepartmentDBHandler(db, 'del', data);
+                department_prompt()
                 break;
             case 'Clear All Departments':
-                department_prompt();
+                (answers.dep_confirm_del == 'Yes') ? (DepartmentDBHandler(db, 'delAll', null)) : false;
+                department_prompt()
                 break;
             case 'Go Back':
                 startMenu();
@@ -216,10 +252,12 @@ function database_prompt() {
     inquirer.prompt(database).then((answers) => {
         switch (answers.database_op) {
             case 'Initialize database':
-
+                DataBaseDBHandler(db, 'init', null);
+                database_prompt();
                 break;
             case 'Clear database':
-
+                DataBaseDBHandler(db, 'delAll', null);
+                database_prompt();
                 break;
             case 'Go Back':
                 startMenu();

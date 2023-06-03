@@ -18,7 +18,7 @@ const dep_questions = [
         type: 'list',
         name: 'dep_select_mod',
         message: 'Update Departments\nSelect Department: ',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.departments_op === 'Update Departments',
     },
     {
@@ -34,7 +34,7 @@ const dep_questions = [
         type: 'list',
         name: 'dep_select_del',
         message: 'Delete Departments\nSelect Department: ',
-        choices: [],
+        choices:  ['1','2','3'],
         when: (answers) => answers.departments_op === 'Delete Departments',
     },
     {
@@ -42,7 +42,7 @@ const dep_questions = [
         name: 'dep_confirm_del',
         message: 'Confirm: ',
         choices: ['Yes','No'],
-        when: (answers) => answers.departments_op === 'Delete Departments' && answers.dep_select_del != 'Cancel',
+        when: (answers) => answers.departments_op === 'Clear All Departments' && answers.dep_select_del != 'Cancel',
     }
 ];
 
