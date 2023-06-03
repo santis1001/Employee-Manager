@@ -12,9 +12,9 @@ class MYSQL {
             host: 'localhost',
             user: this.user,
             password: this.pass,
-            port: this.port
+            port: this.port,
+            database: 'business_db'
         });
-
         return db;
     }
 }
