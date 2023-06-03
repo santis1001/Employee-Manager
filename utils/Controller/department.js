@@ -1,19 +1,49 @@
-const inquirer = require('inquirer');
-
-const emp_questions = [
+const dep_questions = [
     {
         type: 'list',
-        name: 'employees_op',
-        message: 'Employees Options',
-        choices: ['View Employee', 'Add Employee', 'Update Employee', 'Delete Employee', 'Clear All Employees'],
-        when: (answers) => answers.main_menu === 'Employees Options'
+        name: 'departments_op',
+        message: 'Departments Options',
+        choices: ['View Departments', 'Add Departments', 'Update Departments', 'Delete Departments', 'Clear All Departments', 'Go Back'],
+    },
+    {
+        type: 'input',
+        name: 'depname_add',
+        message: 'Add Departments\nEnter Department name: ',
+        when: (answers) => answers.departments_op === 'Add Departments',
+        validate: (input) => {
+            return (input != '') ? true : 'Enter Department name:';
+        },
+    },
+    {
+        type: 'list',
+        name: 'dep_select_mod',
+        message: 'Update Departments\nSelect Department: ',
+        choices: [],
+        when: (answers) => answers.departments_op === 'Update Departments',
+    },
+    {
+        type: 'input',
+        name: 'depname_mod',
+        message: 'Enter new Department name: ',
+        when: (answers) => answers.departments_op === 'Update Departments',
+        validate: (input) => {
+            return (input != '') ? true : 'Enter Department name:';
+        },
+    },
+    {
+        type: 'list',
+        name: 'dep_select_del',
+        message: 'Delete Departments\nSelect Department: ',
+        choices: [],
+        when: (answers) => answers.departments_op === 'Delete Departments',
+    },
+    {
+        type: 'list',
+        name: 'dep_confirm_del',
+        message: 'Confirm: ',
+        choices: ['Yes','No'],
+        when: (answers) => answers.departments_op === 'Delete Departments' && answers.dep_select_del != 'Cancel',
     }
-]
+];
 
-function init() {
-    console.log('department');
-}
-
-module.exports = {
-    init: init
-};
+module.exports =dep_questions ;

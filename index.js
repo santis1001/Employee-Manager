@@ -130,7 +130,7 @@ function employees_prompt() {
 }
 function roles_prompt() {
     inquirer.prompt(roles).then((answers) => {
-        switch (answers.employees_op) {
+        switch (answers.roles_op) {
             case 'View Employee':
                 printTable();
                 break;
@@ -150,7 +150,7 @@ function roles_prompt() {
 }
 function department_prompt() {
     inquirer.prompt(department).then((answers) => {
-        switch (answers.employees_op) {
+        switch (answers.departments_op) {
             case 'View Employee':
                 printTable();
                 break;
