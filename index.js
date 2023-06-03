@@ -23,9 +23,11 @@ const login = [
         }
     },
     {
-        type: 'input',
+        type: 'password',
         name: 'password',
         message: 'Enter Password:',
+        mask: '*',
+        transformer: (input) => '*'.repeat(input.length),
         validate: (input) => {
             return (input != '') ? true : 'Enter PASSWORD';
         }
@@ -220,7 +222,7 @@ function department_prompt() {
                 break;
             case 'Add Departments':
                 data = {
-                    name: answers.depname_add,                    
+                    name: answers.depname_add,
                 };
                 DepartmentDBHandler(db, 'add', data);
                 department_prompt()
@@ -252,6 +254,7 @@ function database_prompt() {
     inquirer.prompt(database).then((answers) => {
         switch (answers.database_op) {
             case 'Initialize database':
+
                 DataBaseDBHandler(db, 'init', null);
                 database_prompt();
                 break;
