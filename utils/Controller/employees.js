@@ -28,21 +28,21 @@ const emp_questions = [
         type: 'list',
         name: 'role_add',
         message: 'Enter employee role: ',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'manager_add',
         message: 'Enter employee manager: ',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'select_emp',
         message: 'Update Employee\nSelect Employee',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.employees_op === 'Update Employee'
     },
     {
@@ -59,6 +59,7 @@ const emp_questions = [
         type: 'input',
         name: 'lname_up',
         message: 'Enter last name: ',
+        default: '',
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel',
         validate: (input) => {
             return (input != '') ? true : 'Enter last name';
@@ -68,22 +69,29 @@ const emp_questions = [
         type: 'list',
         name: 'role_up',
         message: 'Enter employee role: ',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel'
     },
     {
         type: 'list',
         name: 'manager_up',
         message: 'Enter employee manager: ',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel'
     },
     {
         type: 'list',
         name: 'delete_emp',
         message: 'Select employee:',
-        choices: [],
+        choices: ['1','2','3'],
         when: (answers) => answers.employees_op === 'Delete Employee'
+    },
+    {
+        type: 'list',
+        name: 'confirm_del',
+        message: 'Confirm delete all entries',
+        choices: ['Yes','No'],
+        when: (answers) => answers.employees_op === 'Clear All Employees'
     }
 ];
 

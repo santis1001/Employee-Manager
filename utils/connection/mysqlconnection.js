@@ -1,8 +1,10 @@
 const mysql = require('mysql');
+
 class MYSQL {
-    constructor(user, pass) {
-        this.user = user,
-        this.pass = pass
+    constructor(user, pass, port) {
+        this.user = user;
+        this.pass = pass;
+        this.port = port;
     }
 
     db() {
@@ -10,11 +12,11 @@ class MYSQL {
             host: 'localhost',
             user: this.user,
             password: this.pass,
-            port: '3305'
+            port: this.port
         });
-    
-        return db;
-    };
 
+        return db;
+    }
 }
+
 module.exports = MYSQL;

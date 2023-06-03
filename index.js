@@ -4,8 +4,12 @@ const employees = require('./utils/Controller/employees');
 const roles = require('./utils/Controller/roles.js');
 const department = require('./utils/Controller/department.js');
 const database = require('./utils/Controller/database');
-const MYSQL = require('./utils/Connection/mysqlconnection');
-const Employees = require('./utils/libs/Employees');
+
+const EmployeeDBHandler = require('./utils/connection/employees_db');
+const RolesDBHandler = require('./utils/Connection/roles_db');
+
+const MYSQL = require('./utils/connection/mysqlconnection');
+
 
 const login = [
     {
@@ -15,12 +19,21 @@ const login = [
         validate: (input) => {
             return (input != '') ? true : 'Enter USER';
         }
-    }, {
+    },
+    {
         type: 'input',
         name: 'password',
         message: 'Enter Password:',
         validate: (input) => {
             return (input != '') ? true : 'Enter PASSWORD';
+        }
+    },
+    {
+        type: 'input',
+        name: 'port',
+        message: 'Enter Port:',
+        validate: (input) => {
+            return (input != '') ? true : 'Enter Port information correctly:';
         }
     }
 ];
@@ -42,10 +55,12 @@ const main_questions = [
 ];
 
 function init() {
+
     inquirer.prompt(login).then((answers) => {
         const db_cred = {
             USER: answers.user,
-            PASSWORD: answers.password
+            PASSWORD: answers.password,
+            PORT: answers.port
         };
         startConnection(db_cred)
             .then(() => {
@@ -60,7 +75,7 @@ function init() {
 let db;
 function startConnection(db_cred) {
     return new Promise((resolve, reject) => {
-        const msq = new MYSQL(db_cred.USER, db_cred.PASSWORD);
+        const msq = new MYSQL(db_cred.USER, db_cred.PASSWORD, db_cred.PORT);
         db = msq.db();
         db.connect((err) => {
             if (err) {
@@ -87,21 +102,21 @@ function startMenu() {
     inquirer.prompt(main_questions).then((answers) => {
         switch (answers.main_menu) {
             case 'Employees Options':
-                employees_prompt()                
+                employees_prompt()
                 break;
             case 'Roles Options':
                 roles_prompt();
                 break;
             case 'Department Options':
-                department_prompt() ;
+                department_prompt();
                 break;
             case 'Database Options':
                 database_prompt();
                 break;
             case 'Quit':
                 (answers.quit_op === 'No') ? startMenu() : false;
-                break;            
-            default: 
+                break;
+            default:
                 startMenu();
                 break;
         }
@@ -111,16 +126,38 @@ function employees_prompt() {
     inquirer.prompt(employees).then((answers) => {
         switch (answers.employees_op) {
             case 'View Employee':
-                printTable();
+                EmployeeDBHandler(db, 'get', null);
                 employees_prompt();
                 break;
             case 'Add Employee':
+                data = {
+                    name: answers.fname_add,
+                    last: answers.lname_add,
+                    role: answers.role_add,
+                    manager: answers.manager_add
+                };
+                EmployeeDBHandler(db, 'add', data);
+                employees_prompt();
+                break;
+            case 'Update Employee':
+                data = {
+                    id: answers.select_emp,
+                    name: answers.fname_add,
+                    last: answers.lname_add,
+                    role: answers.role_add,
+                    manager: answers.manager_add
+                };
+                EmployeeDBHandler(db, 'mod', data);
+                employees_prompt();
                 break;
             case 'Delete Employee':
+                data = { id: answers.delete_emp };
+                EmployeeDBHandler(db, 'del', data);
+                employees_prompt();
                 break;
             case 'Clear All Employees':
-                break;
-            case 'Clear All Employees':
+                (answers.confirm_del == 'Yes') ? (EmployeeDBHandler(db, 'delAll', null)) : false;
+                employees_prompt();
                 break;
             case 'Go Back':
                 startMenu();
@@ -131,16 +168,16 @@ function employees_prompt() {
 function roles_prompt() {
     inquirer.prompt(roles).then((answers) => {
         switch (answers.roles_op) {
-            case 'View Employee':
-                printTable();
+            case 'View Roles':
+                roles_prompt();
                 break;
-            case 'Add Employee':
+            case 'Add Roles':
                 break;
-            case 'Delete Employee':
+            case 'Delete Roles':
                 break;
-            case 'Clear All Employees':
+            case 'Update Roles':
                 break;
-            case 'Clear All Employees':
+            case 'Clear All Roles':
                 break;
             case 'Go Back':
                 startMenu();
@@ -148,19 +185,26 @@ function roles_prompt() {
         }
     });
 }
+//'View Departments', 'Add Departments', 
+//'Update Departments', 'Delete Departments', 'Clear All Departments', 'Go Back'],
+
 function department_prompt() {
     inquirer.prompt(department).then((answers) => {
         switch (answers.departments_op) {
-            case 'View Employee':
-                printTable();
+            case 'View Departments':
+                department_prompt();
                 break;
-            case 'Add Employee':
+            case 'Add Departments':
+                department_prompt();
                 break;
-            case 'Delete Employee':
+            case 'Delete Departments':
+                department_prompt();
                 break;
-            case 'Clear All Employees':
+            case 'Update Departments':
+                department_prompt();
                 break;
-            case 'Clear All Employees':
+            case 'Clear All Departments':
+                department_prompt();
                 break;
             case 'Go Back':
                 startMenu();
@@ -172,14 +216,14 @@ function database_prompt() {
     inquirer.prompt(database).then((answers) => {
         switch (answers.database_op) {
             case 'Initialize database':
-                resetTable();
+
                 break;
             case 'Clear database':
-                resetTable();
+
                 break;
             case 'Go Back':
-                startMenu();    
-                break;          
+                startMenu();
+                break;
         }
     });
 }
