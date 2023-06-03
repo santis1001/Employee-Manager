@@ -1,3 +1,5 @@
+const emplist = require('../lib/jsonPersistance/employees.json')
+const rolelist = require('../lib/jsonPersistance/roles.json')
 
 const emp_questions = [
     {
@@ -28,28 +30,40 @@ const emp_questions = [
         type: 'list',
         name: 'role_add',
         message: 'Enter employee role: ',
-        choices: ['1','2','3'],
+        choices: rolelist.map(item => ({
+            name: item.id + ': ' + item.title + ' ' + item.department_id,
+            value: item.id
+        })),
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'manager_add',
         message: 'Enter employee manager: ',
-        choices: ['1','2','3'],
+        choices: emplist.map(item => ({
+            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+            value: item.id
+        })),
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'select_emp',
         message: 'Update Employee\nSelect Employee',
-        choices: ['1','2','3'],
+        choices: emplist.map(item => ({
+            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+            value: item.id
+        })),
         when: (answers) => answers.employees_op === 'Update Employee'
     },
     {
         type: 'input',
         name: 'fname_up',
         message: 'Enter first name: ',
-        default: '',
+        default: (answers) => {
+            const selectedEmployee = emplist.find(item => item.id === answers.select_emp);
+            return selectedEmployee ? selectedEmployee.first_name : '';
+        },
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel',
         validate: (input) => {
             return (input != '') ? true : 'Enter first name';
@@ -59,7 +73,10 @@ const emp_questions = [
         type: 'input',
         name: 'lname_up',
         message: 'Enter last name: ',
-        default: '',
+        default: (answers) => {
+            const selectedEmployee = emplist.find(item => item.id === answers.select_emp);
+            return selectedEmployee ? selectedEmployee.last_name : '';
+        },
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel',
         validate: (input) => {
             return (input != '') ? true : 'Enter last name';
@@ -69,28 +86,45 @@ const emp_questions = [
         type: 'list',
         name: 'role_up',
         message: 'Enter employee role: ',
-        choices: ['1','2','3'],
+        default: (answers) => {
+            const selectedEmployee = rolelist.find(item => item.id === answers.select_emp);
+            return selectedEmployee ? selectedEmployee.role_id : '';
+        },
+        choices: rolelist.map(item => ({
+            name: item.id + ': ' + item.title,
+            value: item.id
+        })),
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel'
     },
     {
         type: 'list',
         name: 'manager_up',
         message: 'Enter employee manager: ',
-        choices: ['1','2','3'],
+        default: (answers) => {
+            const selectedEmployee = emplist.find(item => item.id === answers.select_emp);
+            return selectedEmployee ? (selectedEmployee.manager_id+': '+selectedEmployee.first_name+' '+selectedEmployee.last_name) : '';
+        },
+        choices: emplist.map(item => ({
+            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+            value: item.id
+        })),
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel'
     },
     {
         type: 'list',
         name: 'delete_emp',
         message: 'Select employee:',
-        choices: ['1','2','3'],
+        choices: emplist.map(item => ({
+            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+            value: item.id
+        })),
         when: (answers) => answers.employees_op === 'Delete Employee'
     },
     {
         type: 'list',
         name: 'confirm_del',
         message: 'Confirm delete all entries',
-        choices: ['Yes','No'],
+        choices: ['Yes', 'No'],
         when: (answers) => answers.employees_op === 'Clear All Employees'
     }
 ];

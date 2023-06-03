@@ -10,6 +10,7 @@ const department = require('./utils/Controller/department.js');
 const EmployeeDBHandler = require('./utils/Connection/employees_db');
 const RolesDBHandler = require('./utils/Connection/roles_db');
 const DepartmentDBHandler = require('./utils/Connection/department_db');
+const PersistentDB = require('./utils/Connection/persistendb');
 
 const MYSQL = require('./utils/connection/mysqlconnection');
 
@@ -101,6 +102,7 @@ function startConnection(db_cred) {
                 resolve(true);
             });
         });
+        PersistentDB(db);
     });
 }
 function startMenu() {
@@ -144,10 +146,10 @@ function employees_prompt() {
             case 'Update Employee':
                 data = {
                     id: answers.select_emp,
-                    name: answers.fname_add,
-                    last: answers.lname_add,
-                    role: answers.role_add,
-                    manager: answers.manager_add
+                    name: answers.fname_up,
+                    last: answers.lname_up,
+                    role: answers.role_up,
+                    manager: answers.manager_up
                 };
                 EmployeeDBHandler(db, 'mod', data);
                 employees_prompt();

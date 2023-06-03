@@ -4,14 +4,13 @@ function handler(db, type, data) {
     switch (type) {
         case 'add':
             addEmployee(db, data);
-            console.log(data);
             break;
         case 'get':
             getEmployee(db)
             // console.log('get');
             break;
         case 'mod':
-            console.log(data);
+            modEmployee(db, data)
             break;
         case 'del':
             delEmployee(db,data)
@@ -56,38 +55,38 @@ function addEmployee(db, data) {
         const sqlQuery = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ("${data.name}","${data.last}",${data.role},${data.manager})`;
         con.query(sqlQuery, (err, results, fields) => {
 
-            console.log('Affected Rows: '+results.affectedRows);            
+            console.log('Creates Succesfully');            
 
             con.end((err) => {
                 if (err) {
                     console.error('Error closing the database connection:', err);
                     return;
                 }
-                console.log('Database connection closed.');
+                // console.log('Database connection closed.');
             });
         });
     })
 }
-function addEmployee(db, data) {
+function modEmployee(db, data) {
     const con = db.db();
     con.connect((err) => {
         if (err) {
             console.error('Error connecting to the database:', err);
             return;
         }
-        console.log('Connected to the database.');
+        // console.log('Connected to the database.');
 
-        const sqlQuery = `UPDATE SET first_name="${data.name}", last_name="${data.last}", role_id=${data.role}, manager_id=${data.manager} WHERE id=${data.id}`;
+        const sqlQuery = `UPDATE employee SET first_name="${data.name}", last_name="${data.last}", role_id=${data.role}, manager_id=${data.manager} WHERE id=${data.id}`;
         con.query(sqlQuery, (err, results, fields) => {
 
-            console.log('Affected Rows: '+results.affectedRows);            
+            console.log('Updated Succesfully');            
 
             con.end((err) => {
                 if (err) {
                     console.error('Error closing the database connection:', err);
                     return;
                 }
-                console.log('Database connection closed.');
+                // console.log('Database connection closed.');
             });
         });
     })
