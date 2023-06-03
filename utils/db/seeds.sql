@@ -18,7 +18,7 @@ INSERT INTO role (title, salary, department_id) VALUES
     ('IT Specialist', 45000, 5),
     ('Operations Manager', 55000, 6),
     ('Research Analyst', 50000, 7),
-    ('Customer Service Representative', 40000, 8);
+    ('Customer Representative', 40000, 8);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES
     ('John', 'Doe', 1, NULL),

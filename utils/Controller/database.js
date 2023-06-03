@@ -1,19 +1,12 @@
-const inquirer = require('inquirer');
 
 const db_questions = [
     {
         type: 'list',
-        name: 'employees_op',
-        message: 'Employees Options',
-        choices: ['View Employee', 'Add Employee', 'Update Employee', 'Delete Employee', 'Clear All Employees'],
-        when: (answers) => answers.main_menu === 'Employees Options'
+        name: 'database_op',
+        message: 'Database Options',
+        choices: ['Initialize database', 'Clear database', 'Go Back'],
     }
 ]
 
-function init() {
-    console.log('database');
-}
 
-module.exports = {
-    init: init
-};
+module.exports = db_questions;

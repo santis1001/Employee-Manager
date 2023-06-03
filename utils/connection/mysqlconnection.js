@@ -1,15 +1,20 @@
-const mysql = require('mysql2');
+const mysql = require('mysql');
+class MYSQL {
+    constructor(user, pass) {
+        this.user = user,
+        this.pass = pass
+    }
 
-function db (user, pass) {
-    return mysql.createConnection(
-        {
+    db() {
+        const db = mysql.createConnection({
             host: 'localhost',
-            user: user,
-            password: pass,
-            database: 'business_db'
-        },
-        console.log(`Connected to the business_db database.`)
-    );
-};
+            user: this.user,
+            password: this.pass,
+            port: '3305'
+        });
+    
+        return db;
+    };
 
-module.exports = db(a,b);
+}
+module.exports = MYSQL;

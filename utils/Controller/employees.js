@@ -1,9 +1,3 @@
-const inquirer = require('inquirer');
-const Employees = require('../libs/Employees');
-
-const employees_list = [];
-const manager = [];
-const role = [];
 
 const emp_questions = [
     {
@@ -11,7 +5,6 @@ const emp_questions = [
         name: 'employees_op',
         message: 'Employees Menu: What would you like to do?',
         choices: ['View Employee', 'Add Employee', 'Update Employee', 'Delete Employee', 'Clear All Employees', 'Go Back'],
-        when: (answers) => answers.main_menu === 'Employees Options'
     },
     {
         type: 'input',
@@ -35,21 +28,21 @@ const emp_questions = [
         type: 'list',
         name: 'role_add',
         message: 'Enter employee role: ',
-        choices: role,
+        choices: [],
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'manager_add',
         message: 'Enter employee manager: ',
-        choices: manager,
+        choices: [],
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'select_emp',
         message: 'Update Employee\nSelect Employee',
-        choices: employees_list,
+        choices: [],
         when: (answers) => answers.employees_op === 'Update Employee'
     },
     {
@@ -75,37 +68,24 @@ const emp_questions = [
         type: 'list',
         name: 'role_up',
         message: 'Enter employee role: ',
-        choices: role,
+        choices: [],
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel'
     },
     {
         type: 'list',
         name: 'manager_up',
         message: 'Enter employee manager: ',
-        choices: manager,
+        choices: [],
         when: (answers) => answers.employees_op === 'Update Employee' && answers.select_emp != 'Cancel'
     },
     {
         type: 'list',
         name: 'delete_emp',
         message: 'Select employee:',
-        choices: employees_list,
+        choices: [],
         when: (answers) => answers.employees_op === 'Delete Employee'
     }
-]
-
-function init() {
-    inquirer.prompt(emp_questions).then((answers) => {
-        (answers.employees_op == 'View Employee') ? printTable(answers) :false;
-        (answers.select_emp == 'Cancel') ? false : init();
-        (answers.delete_emp == 'Cancel') ? false : init();
-    });
-}
-function printTable(ans) {
-    
-}
+];
 
 
-module.exports = {
-    init: init
-};
+module.exports = emp_questions;

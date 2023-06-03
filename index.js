@@ -1,11 +1,11 @@
+const mysql = require('mysql2');
 const inquirer = require('inquirer');
-const employees = require('./utils/Controller/employees.js');
+const employees = require('./utils/Controller/employees');
 const roles = require('./utils/Controller/roles.js');
 const department = require('./utils/Controller/department.js');
-const database = require('./utils/Controller/database.js');
-const db = require('./utils/connection/mysqlconnection.js');
-
-let db_cred = {};
+const database = require('./utils/Controller/database');
+const MYSQL = require('./utils/Connection/mysqlconnection');
+const Employees = require('./utils/libs/Employees');
 
 const login = [
     {
@@ -15,10 +15,10 @@ const login = [
         validate: (input) => {
             return (input != '') ? true : 'Enter USER';
         }
-    },{
+    }, {
         type: 'input',
         name: 'password',
-        message: 'Enter Password',
+        message: 'Enter Password:',
         validate: (input) => {
             return (input != '') ? true : 'Enter PASSWORD';
         }
@@ -43,24 +43,145 @@ const main_questions = [
 
 function init() {
     inquirer.prompt(login).then((answers) => {
-        db_cred = {
-            USER : answers.user,
-            PASSWORD : answers.password
+        const db_cred = {
+            USER: answers.user,
+            PASSWORD: answers.password
         };
-        startConnection();
+        startConnection(db_cred)
+            .then(() => {
+                console.log('Connection successful');
+                startMenu();
+            })
+            .catch((err) => {
+                init();
+            });
     });
+}
+let db;
+function startConnection(db_cred) {
+    return new Promise((resolve, reject) => {
+        const msq = new MYSQL(db_cred.USER, db_cred.PASSWORD);
+        db = msq.db();
+        db.connect((err) => {
+            if (err) {
+                console.error('Error connecting to the database');
+                reject(err);
+                return;
+            }
+            const sql = `CREATE DATABASE IF NOT EXISTS business_db;`;
+            db.query(sql, (err, result) => {
+                if (err) {
+                    console.error('Error creating database:', err);
+                    reject(err);
+                    return;
+                }
+                db.end();
+                resolve(true);
+            });
+        });
+    });
+}
+
+
+function startMenu() {
     inquirer.prompt(main_questions).then((answers) => {
-        (answers.quit_op == 'No') ? init() : false;
-        (answers.main_menu == 'Employees Options') ? employees.init() : false;
-        (answers.main_menu == 'Roles Options') ? roles.init() : false;
-        (answers.main_menu == 'Department Options') ? department.init() : false;
-        (answers.main_menu == 'Database Options') ? database.init() : false;
-        (answers.quit_op == 'Yes') ? false : init();
+        switch (answers.main_menu) {
+            case 'Employees Options':
+                employees_prompt()                
+                break;
+            case 'Roles Options':
+                roles_prompt();
+                break;
+            case 'Department Options':
+                department_prompt() ;
+                break;
+            case 'Database Options':
+                database_prompt();
+                break;
+            case 'Quit':
+                (answers.quit_op === 'No') ? startMenu() : false;
+                break;            
+            default: 
+                startMenu();
+                break;
+        }
     });
-
 }
-function startConnection() {
-    
+function employees_prompt() {
+    inquirer.prompt(employees).then((answers) => {
+        switch (answers.employees_op) {
+            case 'View Employee':
+                printTable();
+                employees_prompt();
+                break;
+            case 'Add Employee':
+                break;
+            case 'Delete Employee':
+                break;
+            case 'Clear All Employees':
+                break;
+            case 'Clear All Employees':
+                break;
+            case 'Go Back':
+                startMenu();
+                break;
+        }
+    });
 }
-
+function roles_prompt() {
+    inquirer.prompt(roles).then((answers) => {
+        switch (answers.employees_op) {
+            case 'View Employee':
+                printTable();
+                break;
+            case 'Add Employee':
+                break;
+            case 'Delete Employee':
+                break;
+            case 'Clear All Employees':
+                break;
+            case 'Clear All Employees':
+                break;
+            case 'Go Back':
+                startMenu();
+                break;
+        }
+    });
+}
+function department_prompt() {
+    inquirer.prompt(department).then((answers) => {
+        switch (answers.employees_op) {
+            case 'View Employee':
+                printTable();
+                break;
+            case 'Add Employee':
+                break;
+            case 'Delete Employee':
+                break;
+            case 'Clear All Employees':
+                break;
+            case 'Clear All Employees':
+                break;
+            case 'Go Back':
+                startMenu();
+                break;
+        }
+    });
+}
+function database_prompt() {
+    inquirer.prompt(database).then((answers) => {
+        switch (answers.database_op) {
+            case 'Initialize database':
+                resetTable();
+                break;
+            case 'Clear database':
+                resetTable();
+                break;
+            case 'Go Back':
+                startMenu();    
+                break;          
+        }
+    });
+}
 init();
+module.exports = startMenu;
