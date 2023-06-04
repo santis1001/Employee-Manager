@@ -14,12 +14,23 @@ const PersistentDB = require('./utils/Connection/persistendb');
 
 const MYSQL = require('./utils/connection/mysqlconnection');
 
+let cred;
+try {    
+    cred = require('./utils/credentials/credentials.json');
+} catch (error) {
+    cred ={
+        "user":"",
+        "pass": "",
+        "port":""
+    };
+}
+
 const login = [
     {
         type: 'input',
         name: 'user',
         message: 'Enter Username:',
-        default: 'root',
+        default: cred.user,
         validate: (input) => {
             return (input != '') ? true : 'Enter USER';
         }
@@ -29,7 +40,7 @@ const login = [
         name: 'password',
         message: 'Enter Password:',
         mask: '*',
-        default: '3b9212b26c7fe4f4609fe1b2ecfa949959b1770ae090f7c4d602673e4b3b613d',
+        default: cred.pass,
         transformer: (input) => '*'.repeat(input.length),
         validate: (input) => {
             return (input != '') ? true : 'Enter PASSWORD';
@@ -39,7 +50,7 @@ const login = [
         type: 'input',
         name: 'port',
         message: 'Enter Port:',
-        default: '3305',
+        default: cred.port,
         validate: (input) => {
             return (input != '') ? true : 'Enter Port information correctly:';
         }
@@ -271,7 +282,7 @@ function department_prompt() {
 }
 
 function printTitle() {
-    const filePath = path.join(__dirname, './utils/Title/Title.txt');
+    const filePath = path.join(__dirname, './utils/credentials/Title.txt');
     fs.readFile(filePath, 'utf8', (err, data) => {
         if (err) {
             console.log('Employee\nManager');
