@@ -137,7 +137,6 @@ function employees_prompt() {
                     order: answers.view_order,
                     department: (answers.view_sort_dep)?answers.view_sort_dep:null,
                     manager: (answers.view_sort_man)?answers.view_sort_man:null
-
                 };
                 EmployeeDBHandler(db, 'get', data);
                 employees_prompt();
