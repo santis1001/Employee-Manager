@@ -126,13 +126,20 @@ function startMenu() {
                 break;
         }
     });
-}
+}  
 function employees_prompt() {
     PersistentDB(db);
     inquirer.prompt(require('./utils/Controller/employees')).then((answers) => {
         switch (answers.employees_op) {
             case 'View Employee':
-                EmployeeDBHandler(db, 'get', null);
+                data = {
+                    sort: answers.view_sort,
+                    order: answers.view_order,
+                    department: (answers.view_sort_dep)?answers.view_sort_dep:null,
+                    manager: (answers.view_sort_man)?answers.view_sort_man:null
+
+                };
+                EmployeeDBHandler(db, 'get', data);
                 employees_prompt();
                 break;
             case 'Add Employee':

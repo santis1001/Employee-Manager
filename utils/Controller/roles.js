@@ -1,5 +1,4 @@
 const inquirer = require('inquirer');
-
 const deplist = require('../lib/jsonPersistance/departments.json')
 const rolelist = require('../lib/jsonPersistance/roles.json')
 
@@ -52,7 +51,7 @@ const roles_questions = [
         message: 'Add Roles\nEnter Department name: ',
         when: (answers) => answers.roles_op === 'Add Roles',
         validate: (input) => {
-            return (input != '') ? true : 'Enter Department name:';
+            return (input != '') ? true : 'Enter Role name:';
         },
     },
     {

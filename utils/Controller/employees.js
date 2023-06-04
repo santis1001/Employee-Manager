@@ -1,5 +1,6 @@
 const emplist = require('../lib/jsonPersistance/employees.json')
 const rolelist = require('../lib/jsonPersistance/roles.json')
+const deplist = require('../lib/jsonPersistance/departments.json')
 
 const emp_questions = [
     {
@@ -7,6 +8,62 @@ const emp_questions = [
         name: 'employees_op',
         message: 'Employees Menu: What would you like to do?',
         choices: ['View Employee', 'Add Employee', 'Update Employee', 'Delete Employee', 'Clear All Employees', 'Go Back'],
+    },
+    {
+        type: 'list',
+        name: 'view_sort',
+        message: 'Sort by: ',
+        choices: [
+            {
+                name: 'View All',
+                value: 'VAll'
+            }, 
+            {
+                name: 'Department',
+                value: 'department'
+            },
+            {
+                name: 'Manager',
+                value: 'manager'
+            }
+        ],
+        when: (answers) => answers.employees_op === 'View Employee',
+    },
+    {
+        type: 'list',
+        name: 'view_sort_dep',
+        message: 'Sort by Department: ',
+        choices: deplist.map(item => ({
+            name: item.id + ': ' + item.department_name,
+            value: item.id
+        })),
+        when: (answers) => answers.employees_op === 'View Employee' && answers.view_sort === 'department',
+    },
+    {
+        type: 'list',
+        name: 'view_sort_man',
+        message: 'Sort by Manager: ',
+        choices: emplist.map(item => ({
+            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+            value: item.id
+        })),
+        when: (answers) => answers.employees_op === 'View Employee' && answers.view_sort === 'manager',
+    },
+    {
+        type: 'list',
+        name: 'view_order',
+        message: 'Order: ',
+        choices: [
+            {
+                name: 'Ascending',
+                value: 'ASC'
+            },
+            {
+                name: 'Descending',
+                value: 'DESC'
+            }
+        ],
+        when: (answers) => answers.employees_op === 'View Employee',
     },
     {
         type: 'input',
