@@ -29,7 +29,7 @@ function getEmployee(db) {
             console.error('Error connecting to the database:', err);
             return;
         }
-        const sqlQuery = 'SELECT * from employee';
+        const sqlQuery = " SELECT e.id AS employee_id, e.first_name AS employee_first_name,e.last_name AS employee_last_name, r.title AS employee_role, m.first_name AS manager_first_name, m.last_name AS manager_last_name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id;";
         con.query(sqlQuery, (err, result, fields) => {
             // console.log(result);
             // console.log(fields);
@@ -39,7 +39,6 @@ function getEmployee(db) {
             console.log('\n');
             console.table(result);
             console.log('\n');
-
         });
     });
 }
