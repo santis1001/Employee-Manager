@@ -10,13 +10,16 @@
 
 ## Usage
 ### Set up project
+```
+npm init -y
+```
 Install the MySQL package
 ```
-node install mysql
+npm install mysql
 ```
 Install the Inquirer at Version 8.2.4
 ```
-node install inquirer@8.2.4
+npm install inquirer@8.2.4
 ```
 ## Set up the Database
 ### Set Database structure
