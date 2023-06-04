@@ -11,6 +11,42 @@ const roles_questions = [
         choices: ['View Roles', 'Add Roles', 'Update Roles', 'Delete Roles', 'Clear All Roles', 'Go Back']
     },
     {
+        type: 'list',
+        name: 'view_sort',
+        message: 'Sort by: ',
+        choices: [
+            {
+                name: 'Title',
+                value: 'title'
+            },
+            {
+                name: 'Salary',
+                value: 'salary'
+            },
+            {
+                name: 'Department',
+                value: 'department_name'
+            },
+        ],
+        when: (answers) => answers.roles_op === 'View Roles',
+    },
+    {
+        type: 'list',
+        name: 'view_order',
+        message: 'Order: ',
+        choices: [
+            {
+                name: 'Ascending',
+                value: 'ASC'
+            },
+            {
+                name: 'Descending',
+                value: 'DESC'
+            }
+        ],
+        when: (answers) => answers.roles_op === 'View Roles',
+    },
+    {
         type: 'input',
         name: 'title_add',
         message: 'Add Roles\nEnter Department name: ',

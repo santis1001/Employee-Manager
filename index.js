@@ -176,7 +176,11 @@ function roles_prompt() {
     inquirer.prompt(require('./utils/Controller/roles.js')).then((answers) => {
         switch (answers.roles_op) {
             case 'View Roles':
-                RolesDBHandler(db, 'get', null);
+                data = {
+                    sort: answers.view_sort,
+                    order: answers.view_order,
+                };
+                RolesDBHandler(db, 'get', data);
                 roles_prompt();
                 break;
             case 'Add Roles':
