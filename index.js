@@ -18,7 +18,7 @@ let cred;
 try {    
     cred = require('./utils/credentials/credentials.json');
 } catch (error) {
-    cred ={
+    cred = {
         "user":"",
         "pass": "",
         "port":""
