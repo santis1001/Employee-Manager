@@ -1,11 +1,14 @@
 const inquirer = require('inquirer');
 
+const deplist = require('../lib/jsonPersistance/departments.json')
+const rolelist = require('../lib/jsonPersistance/roles.json')
+
 const roles_questions = [
     {
         type: 'list',
         name: 'roles_op',
         message: 'Roles Options',
-        choices: ['View Roles', 'Add Roles', 'Update Roles', 'Delete Roles', 'Clear All Roles','Go Back']    
+        choices: ['View Roles', 'Add Roles', 'Update Roles', 'Delete Roles', 'Clear All Roles', 'Go Back']
     },
     {
         type: 'input',
@@ -29,20 +32,30 @@ const roles_questions = [
         type: 'list',
         name: 'dep_select_add',
         message: 'Select Role Department: ',
-        choices:  ['1','2','3'],
+        choices: deplist.map(item => ({
+            name: item.id + ': ' + item.department_name,
+            value: item.id
+        })),
         when: (answers) => answers.roles_op === 'Add Roles',
     },
     {
         type: 'list',
         name: 'roles_mod',
         message: 'Update Roles\nSelect role: ',
-        choices: ['1','2','3'],
-        when: (answers) => answers.roles_op === 'Update Roles'        
+        choices: rolelist.map(item => ({
+            name: item.id + ': ' + item.title,
+            value: item.id
+        })),
+        when: (answers) => answers.roles_op === 'Update Roles'
     },
     {
         type: 'input',
         name: 'title_mod',
         message: 'Enter Role title: ',
+        default: (answers) => {
+            const selectedRole = rolelist.find(item => item.id === answers.roles_mod);
+            return selectedRole ? (selectedRole.title) : '';
+        },
         when: (answers) => answers.roles_op === 'Update Roles',
         validate: (input) => {
             return (input != '') ? true : 'Enter Rocles title:';
@@ -52,6 +65,10 @@ const roles_questions = [
         type: 'input',
         name: 'salary_mod',
         message: 'Enter Role salary:',
+        default: (answers) => {
+            const selectedRole = rolelist.find(item => item.id === answers.roles_mod);
+            return selectedRole ? (selectedRole.salary) : '';
+        },
         when: (answers) => answers.roles_op === 'Update Roles',
         validate: (input) => {
             return (input != '') ? true : 'Enter Role salary: ';
@@ -61,23 +78,34 @@ const roles_questions = [
         type: 'list',
         name: 'dep_select_mod',
         message: 'Select Department: ',
-        choices: ['1','2','3'],
+        default: (answers) => {
+            const selectedDepartment = rolelist.find(item => item.id === answers.roles_mod);
+            const selectedDepartmentIndex = rolelist.indexOf(selectedDepartment);
+            return selectedDepartmentIndex !== -1 ? selectedDepartmentIndex : 0;
+        },
+        choices: deplist.map(item => ({
+            name: item.id + ': ' + item.department_name,
+            value: item.id
+        })),
         when: (answers) => answers.roles_op === 'Update Roles',
     },
-    
+
     {
         type: 'list',
         name: 'role_select_del',
         message: 'Delete Role\nSelect Role: ',
-        choices:  ['1','2','3'],
+        choices: rolelist.map(item => ({
+            name: item.id + ': ' + item.department_name,
+            value: item.id
+        })),
         when: (answers) => answers.roles_op === 'Delete Roles',
     },
     {
         type: 'list',
         name: 'role_confirm_del',
         message: 'Confirm: ',
-        choices: ['Yes','No'],
-        when: (answers) => answers.roles_op === 'Clear All Roles' && answers.role_select_del != 'Cancel',
+        choices: ['Yes', 'No'],
+        when: (answers) => answers.roles_op === 'Clear All Roles',
     }
 ];
 

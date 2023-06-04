@@ -63,7 +63,7 @@ const main_questions = [
 ];
 
 function init() {
-    
+
     inquirer.prompt(login).then((answers) => {
         const db_cred = {
             USER: answers.user,
@@ -107,6 +107,7 @@ function startConnection(db_cred) {
 }
 function startMenu() {
     inquirer.prompt(main_questions).then((answers) => {
+        PersistentDB(db);
         switch (answers.main_menu) {
             case 'Employees Options':
                 employees_prompt()
@@ -118,7 +119,7 @@ function startMenu() {
                 department_prompt();
                 break;
             case 'Quit':
-                (answers.quit_op === 'No') ? startMenu() : process.exit(0);                
+                (answers.quit_op === 'No') ? startMenu() : process.exit(0);
                 break;
             default:
                 startMenu();
@@ -127,7 +128,8 @@ function startMenu() {
     });
 }
 function employees_prompt() {
-    inquirer.prompt(employees).then((answers) => {
+    PersistentDB(db);
+    inquirer.prompt(require('./utils/Controller/employees')).then((answers) => {
         switch (answers.employees_op) {
             case 'View Employee':
                 EmployeeDBHandler(db, 'get', null);
@@ -170,7 +172,8 @@ function employees_prompt() {
     });
 }
 function roles_prompt() {
-    inquirer.prompt(roles).then((answers) => {
+    PersistentDB(db);
+    inquirer.prompt(require('./utils/Controller/roles.js')).then((answers) => {
         switch (answers.roles_op) {
             case 'View Roles':
                 RolesDBHandler(db, 'get', null);
@@ -211,10 +214,19 @@ function roles_prompt() {
     });
 }
 function department_prompt() {
-    inquirer.prompt(department).then((answers) => {
+    PersistentDB(db);
+    inquirer.prompt(require('./utils/Controller/department.js')).then((answers) => {
+
         switch (answers.departments_op) {
             case 'View Departments':
                 DepartmentDBHandler(db, 'get', null);
+                department_prompt()
+                break;
+            case 'View Budget':
+                data = {
+                    id: answers.dep_select_bud
+                };
+                DepartmentDBHandler(db, 'getB', data);
                 department_prompt()
                 break;
             case 'Add Departments':
@@ -255,7 +267,7 @@ function printTitle() {
             console.log('Employee\nManager');
             return;
         }
-        console.log(data+'\n');
+        console.log(data + '\n');
         init();
     });
 }
