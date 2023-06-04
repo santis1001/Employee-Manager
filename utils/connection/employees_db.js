@@ -16,7 +16,7 @@ function handler(db, type, data) {
             delEmployee(db,data)
             break;
         case 'delAll':
-            console.log('delAll');
+            delAllEmployee(db)
             break;
         default: false
             break;
@@ -106,7 +106,26 @@ function delEmployee(db, data) {
             // console.log(err);
             // CreateTable(result)
             
-            console.log(result);
+            // console.log(result);
+
+        });
+    });
+} 
+function delAllEmployee(db) {
+    const con = db.db();
+    con.connect((err) => {
+        if (err) {
+            console.error('Error connecting to the database:', err);
+            return;
+        }
+        const sqlQuery = `DELETE FROM employee`;
+        con.query(sqlQuery, (err, result, fields) => {
+            // console.log(result);
+            // console.log(fields);
+            // console.log(err);
+            // CreateTable(result)
+            
+            // console.log(result);
 
         });
     });
