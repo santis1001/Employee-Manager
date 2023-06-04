@@ -10,18 +10,18 @@ const department = require('./utils/Controller/department.js');
 const EmployeeDBHandler = require('./utils/Connection/employees_db');
 const RolesDBHandler = require('./utils/Connection/roles_db');
 const DepartmentDBHandler = require('./utils/Connection/department_db');
-const PersistentDB = require('./utils/Connection/persistendb');
+const PersistentDB = require('./utils/Connection/persistent_db');
 
 const MYSQL = require('./utils/connection/mysqlconnection');
 
 let cred;
-try {    
+try {
     cred = require('./utils/credentials/credentials.json');
 } catch (error) {
     cred = {
-        "user":"",
+        "user": "",
         "pass": "",
-        "port":""
+        "port": ""
     };
 }
 
@@ -137,7 +137,7 @@ function startMenu() {
                 break;
         }
     });
-}  
+}
 function employees_prompt() {
     PersistentDB(db);
     inquirer.prompt(require('./utils/Controller/employees')).then((answers) => {
@@ -146,8 +146,8 @@ function employees_prompt() {
                 data = {
                     sort: answers.view_sort,
                     order: answers.view_order,
-                    department: (answers.view_sort_dep)?answers.view_sort_dep:null,
-                    manager: (answers.view_sort_man)?answers.view_sort_man:null
+                    department: (answers.view_sort_dep) ? answers.view_sort_dep : null,
+                    manager: (answers.view_sort_man) ? answers.view_sort_man : null
                 };
                 EmployeeDBHandler(db, 'get', data);
                 employees_prompt();
