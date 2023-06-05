@@ -275,6 +275,7 @@ choices: deplist.map(item => ({
     value: item.id
 })),
 ```
+
 When Updating the Employees, the default Values are set to the origiinal values as a reminder of the values.
 
 ```js
@@ -283,6 +284,15 @@ default: (answers) => {
     return selectedEmployee ? selectedEmployee.last_name : '';
 },
 ```
+### Connection Handler
+**Department Database Connection**
+
+
+
+**Roles Database Connection**
+
+
+**Employees Database Connection**
 
 
 ## ScreenShots
