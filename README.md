@@ -62,7 +62,7 @@ node index.js
 ```
 ## Code
 ### Functionalty
-The main script of the app is the index.js at the root folder, this script controls everything on the app, sets up the credentials for the mysql connection, establish connection and make the Inquire Menu;
+The main script of the app is the index.js at the root folder, this script controls everything on the app, sets up the credentials for the mysql connection, establish connection and invoke the Inquire Menu.
 ### Diagram
 ```
 index.js
