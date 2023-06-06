@@ -401,12 +401,23 @@ choices: deplist.map(item => ({
 })),
 ```
 
-When Updating the Employees, the default Values are set to the origiinal values as a reminder of the values.
+When Updating the Employees, the default Values are set to the original values as a reminder of the values.
 
 ```js
 default: (answers) => {
     const selectedEmployee = emplist.find(item => item.id === answers.select_emp);
     return selectedEmployee ? selectedEmployee.last_name : '';
+},
+```
+
+When Updating the Employees, the default Values for the list option is set to the original choice as the default value.
+
+```js
+default: (answers) => {
+    const selectedEmployee = emplist.find(item => item.id === answers.select_emp);
+    const selectedEmployeeIndex = emplist.find(item => item.id == selectedEmployee.manager_id);
+    const selectedManager = emplist.indexOf(selectedEmployeeIndex);
+    return selectedManager !== -1 ? selectedManager : 0;            
 },
 ```
 
@@ -568,7 +579,6 @@ function addDepartment(db, data) {
                     console.error('Error closing the database connection:', err);
                     return;
                 }
-                // console.log('Database connection closed.');
             });
         });
     })
@@ -596,7 +606,6 @@ function modDepartment(db, data) {
                     console.error('Error closing the database connection:', err);
                     return;
                 }
-                // console.log('Database connection closed.');
             });
         });
     })
@@ -1012,17 +1021,21 @@ module.exports = init;
 
 ## ScreenShots
 **Main Menu Screen**
+
 ![Main Menu img](./assets/screenshots/main_menu.PNG)
 
 **Employees Menu Screen**
+
 ![Employees menu img](./assets/screenshots/employees_menu.PNG)
 
 **Roles Menu Screen**
+
 ![Roles Menu img](./assets/screenshots/roles_menu.PNG) 
 
 **Department Menu Screen**
+
 ![Department Menu img](./assets/screenshots/department_menu.PNG) 
 
 ## Video
-<!--[![SVG Logo Generator Video](./assets/Images/video_preview.png)](https://1drv.ms/v/s!Asj9JhD05ulbsmX9vv-NrVazJf3s?e=akXML8)
- -->
+[![Employee Manager](./assets/Video/VideoGif.gif)](https://1drv.ms/v/s!Asj9JhD05ulbsneyfQARrdJ5t9WT?e=ejfqxt)
+
