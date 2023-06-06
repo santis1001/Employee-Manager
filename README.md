@@ -1036,7 +1036,7 @@ module.exports = init;
 ## ScreenShots
 **Main Menu Screen**
 
-![Main Menu img](./assets/Screenshots/main_menu.png)
+![Main Menu img](./assets/Screenshots/main_menu.PNG)
 
 **Employees Menu Screen**
 
