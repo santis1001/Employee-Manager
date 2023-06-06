@@ -1036,19 +1036,19 @@ module.exports = init;
 ## ScreenShots
 **Main Menu Screen**
 
-![Main Menu img](./assets/screenshots/main_menu.png)
+![Main Menu img](./assets/Screenshots/main_menu.png)
 
 **Employees Menu Screen**
 
-![Employees menu img](./assets/screenshots/employees_menu.PNG)
+![Employees menu img](./assets/Screenshots/employees_menu.PNG)
 
 **Roles Menu Screen**
 
-![Roles Menu img](./assets/screenshots/roles_menu.PNG) 
+![Roles Menu img](./assets/Screenshots/roles_menu.PNG) 
 
 **Department Menu Screen**
 
-![Department Menu img](./assets/screenshots/department_menu.PNG) 
+![Department Menu img](./assets/Screenshots/department_menu.PNG) 
 
 ## Video
 [![Employee Manager](./assets/Video/VideoGif.gif)](https://1drv.ms/v/s!Asj9JhD05ulbsneyfQARrdJ5t9WT?e=ejfqxt)
