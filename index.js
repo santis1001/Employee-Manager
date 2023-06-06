@@ -9,7 +9,7 @@ const department = require('./utils/Controller/department.js');
 
 const EmployeeDBHandler = require('./utils/Connection/employees_db');
 const RolesDBHandler = require('./utils/Connection/roles_db');
-const DepartmentDBHandler = require('./utils/Connection/department_db');
+const DepartmentDBHandler = require('./utils/connection/department_db');
 const PersistentDB = require('./utils/Connection/persistent_db');
 
 const MYSQL = require('./utils/connection/mysqlconnection');

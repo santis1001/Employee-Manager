@@ -1,5 +1,3 @@
-const Table = require('cli-table');
-
 function handler(db, type, data) {
     switch (type) {
         case 'add':
@@ -7,7 +5,6 @@ function handler(db, type, data) {
             break;
         case 'get':
             getEmployee(db, data)
-            // console.log('get');
             break;
         case 'mod':
             modEmployee(db, data)

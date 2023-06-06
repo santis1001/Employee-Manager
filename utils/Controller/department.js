@@ -1,4 +1,4 @@
-const deplist = require('../lib/jsonPersistance/departments.json')
+const deplist = require('../lib/jsonPersistence/departments.json')
 
 const dep_questions = [
     {

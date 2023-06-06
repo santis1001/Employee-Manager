@@ -5,11 +5,9 @@ function handler(db, type, data) {
             break;
         case 'get':
             getDepartment(db)
-            // console.log('get');
             break;
         case 'getB':
             getDepartmentBudget(db, data)
-            // console.log('get');
             break;
         case 'mod':
             modDepartment(db, data)
@@ -77,7 +75,7 @@ function addDepartment(db, data) {
         const sqlQuery = `INSERT INTO department (department_name) VALUES ("${data.name}");`;
         con.query(sqlQuery, (err, results, fields) => {
 
-            console.log('Creates Succesfully');
+            console.log('Created Succesfully');
 
             con.end((err) => {
                 if (err) {

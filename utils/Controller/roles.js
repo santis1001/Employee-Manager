@@ -1,6 +1,6 @@
 const inquirer = require('inquirer');
-const deplist = require('../lib/jsonPersistance/departments.json')
-const rolelist = require('../lib/jsonPersistance/roles.json')
+const deplist = require('../lib/jsonPersistence/departments.json')
+const rolelist = require('../lib/jsonPersistence/roles.json')
 
 const roles_questions = [
     {

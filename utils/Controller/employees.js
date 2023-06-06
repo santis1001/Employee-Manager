@@ -1,6 +1,6 @@
-const emplist = require('../lib/jsonPersistance/employees.json')
-const rolelist = require('../lib/jsonPersistance/roles.json')
-const deplist = require('../lib/jsonPersistance/departments.json')
+const emplist = require('../lib/jsonPersistence/employees.json')
+const rolelist = require('../lib/jsonPersistence/roles.json')
+const deplist = require('../lib/jsonPersistence/departments.json')
 
 const emp_questions = [
     {

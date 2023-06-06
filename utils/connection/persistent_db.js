@@ -11,18 +11,18 @@ function init(db) {
 
     con.query(departmentQuery, (error, departments) => {
         if (error) throw error;
-        writeToFile('./utils/lib/jsonPersistance/departments.json',departments);
+        writeToFile('./utils/lib/jsonPersistence/departments.json', departments);
 
     });
 
     con.query(roleQuery, (error, roles) => {
         if (error) throw error;
-        writeToFile('./utils/lib/jsonPersistance/roles.json', roles);
+        writeToFile('./utils/lib/jsonPersistence/roles.json', roles);
     });
 
     con.query(employeeQuery, (error, employees) => {
         if (error) throw error;
-        writeToFile('./utils/lib/jsonPersistance/employees.json', employees);
+        writeToFile('./utils/lib/jsonPersistence/employees.json', employees);
     });
     con.end();
 }
