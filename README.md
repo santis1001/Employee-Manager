@@ -2,8 +2,20 @@
 12 Challenge
 
 ## Description
-
-
+This program is an employee manager that allows you to manage employees, roles, and departments through a menu section. The program's management functionality includes creating, reading, updating, and deleting data from each table. The user is presented with four menus: Main menu, Employee menu, Role menu, and Department menu.
+### Features
+* Choices
+    * When selecting an option, it will prompt a complete list of:
+        * Roles and departments for roles
+        * First and last names for managers
+* Modify
+    * Input: Sets a default value corresponding to the selected data to update
+    * Choices: Sets the option selector to the value that corresponds to the original value
+* Sort, Filter, and Order
+    * Sort: Asks the user which column to sort and in which order
+    * Filter: When selected, it asks the user to filter the list by manager * or department, showing only employees corresponding to that data
+    * Order: When asked, the user selects whether to order the data in ascending or descending order.
+ 
 ## User Story
 
 ```
@@ -62,7 +74,7 @@ node index.js
 ```
 ## Code
 ### Functionalty
-The main script of the app is the index.js at the root folder, this script controls everything on the app, sets up the credentials for the mysql connection, establish connection and invoke the Inquire Menu.
+The main script of the app is index.js located in the root folder. This script controls everything in the app, including setting up the credentials for the MySQL connection, establishing the connection, and invoking the Inquire Menu.
 ### Diagram
 ```
 index.js
@@ -96,7 +108,7 @@ index.js
 ### Inquirer Questions
 **LogIn - Credentials**
 
-The Log Credentials prompts uses an object that tries to read a file and if exists it uses its content as default credential for the login, making it easier to access if it does not exists it set blanks values.
+The Log Credentials prompt uses an object that attempts to read a file. If the file exists, it uses its content as the default credential for the login, making it easier to access. If the file does not exist, it sets blank values.
 
 ```js
 let cred;
@@ -143,7 +155,7 @@ const login = [
 ```
 **Main Menu prompt**
 
-The main menu prompt has 2 questions. The first question has 4 option which are `Employees Options`, `Roles Options`, `Department Options`, `Quit`. The second just appears when the `Quit` option is selected, this prompt is to confirm if you want to quit, the options are `Yes`, `No`.
+The main menu prompt consists of two questions. The first question has four options: `Employees Options`, `Roles Options`, `Department Options`, and `Quit`. The second question only appears when the `Quit` option is selected. This prompt is to confirm if you want to quit, with options `Yes` and `No`.
 ```js
 const main_questions = [
     {
@@ -180,14 +192,14 @@ The Department Inquirer Menu prompts 7 questions.
     * Confirm (Yes, No)
 * Go Back
 
-The Choice Questions uses an array for its choices. the Question the select a department to update or delete will prompt a choice list which one must be selected.
+The choice questions use an array for their choices. The question that selects a department to update or delete will prompt a list of choices from which one must be selected.
 ```js
 choices: deplist.map(item => ({
     name: item.id + ': ' + item.department_name,
     value: item.id
 })),
 ```
-In the Update Department section, the default value will set to the name of the selected department, as a reminder of the set Value.
+In the Update Department section, the default value will be set to the name of the selected department as a reminder of the previously set value.
 ```js
 default: (answers) => {
     const selectedDepartment = deplist.find(item => item.id === answers.dep_select_mod);
@@ -195,7 +207,7 @@ default: (answers) => {
 },
 ```
 
-When at the main menu the department is selected the function `department_prompt()` will handle the inquirer prompts for this section. Once finish making the decision within the menu it will resolve into a switch to decide which main option was selected and depending in which option the answers output will vary and stored in an object named `data` which then its passed as a patameter to the Department Database Handler this the connection instance and a string indicating the type decision was made.
+When the department is selected at the main menu, the function `department_prompt()` will handle the inquirer prompts for this section. Once the decision-making process within the menu is complete, it will resolve into a switch statement to determine which main option was selected. Depending on the selected option, the output answers will vary and be stored in an object named `data`. This `data` object is then passed as a parameter to the Department Database Handler, along with the connection instance and a string indicating the type of decision that was made.
 ```js
 function department_prompt() {
     PersistentDB(db);
@@ -266,8 +278,7 @@ The Roles Inquirer Menu prompts 6 questions.
     * Confirm (Yes, No)
 * Go Back
 
-The most of the question uses a list choice format. 
-The Choice Questions uses an array for its choices. the Question the select a department to add to role or select role to update or delete will prompt a choice list which one must be selected.
+Most of the questions use a list choice format. The choice questions utilize an array for their choices. The question that selects a department to add to a role or selects a role to update or delete will prompt a choice list from which one must be selected.
 
 Roles List
 
@@ -287,7 +298,7 @@ choices: deplist.map(item => ({
 })),
 ```
 
-When Updating an existing Role the default Values are set to the origiinal values as a reminder of the values.
+When updating an existing role, the default values are set to the original values as a reminder. This helps in preserving the existing values and allows the user to make changes or keep the original values if desired.
 
 ```js
 default: (answers) => {
@@ -296,7 +307,7 @@ default: (answers) => {
 },
 ```
 
-When at the main menu the Roles is selected the function `roles_prompt()` will handle the inquirer prompts for this section. Once finish making the decision within the menu it will resolve into a switch to decide which main option was selected and depending in which option the answers output will vary and stored in an object named `data` which then its passed as a patameter to the Role Database Handler this the connection instance and a string indicating the type decision was made.
+When the Roles option is selected at the main menu, the function `roles_prompt()` will handle the inquirer prompts for this section. Once the decision-making process within the menu is complete, it will resolve into a switch statement to determine which main option was selected. Depending on the selected option, the output answers will vary and be stored in an object named `data`. This `data` object is then passed as a parameter to the Role Database Handler, along with the connection instance and a string indicating the type of decision that was made.
 ```js
 function roles_prompt() {
     PersistentDB(db);
@@ -401,7 +412,7 @@ choices: deplist.map(item => ({
 })),
 ```
 
-When Updating the Employees, the default Values are set to the original values as a reminder of the values.
+When updating the employees, the default values are set to the original values as a reminder of their current values. This allows the user to make changes while still having the option to keep the original values if desired.
 
 ```js
 default: (answers) => {
@@ -410,7 +421,7 @@ default: (answers) => {
 },
 ```
 
-When Updating the Employees, the default Values for the list option is set to the original choice as the default value.
+When updating the employees, the default value for the list option is set to the original choice. This means that the previously selected choice will be pre-selected as the default value when updating the employee's information.
 
 ```js
 default: (answers) => {
@@ -421,7 +432,7 @@ default: (answers) => {
 },
 ```
 
-When at the main menu the Roles is selected the function `employees_prompt()` will handle the inquirer prompts for this section. Once finish making the decision within the menu it will resolve into a switch to decide which main option was selected and depending in which option the answers output will vary and stored in an object named `data` which then its passed as a patameter to the Employees Database Handler this the connection instance and a string indicating the type decision was made.
+When the Roles option is selected at the main menu, the function `employees_prompt()` will handle the inquirer prompts for this section. Once the decision-making process within the menu is complete, it will resolve into a switch statement to determine which main option was selected. Depending on the selected option, the output answers will vary and be stored in an object named `data`. This `data` object is then passed as a parameter to the Employees Database Handler, along with the connection instance and a string indicating the type of decision that was made.
 
 ```js
 function employees_prompt() {
@@ -479,7 +490,8 @@ function employees_prompt() {
 ### Connection Handler
 **Department Database Connection**
 
-This is the `Department handler` function which takes care of the input and executes the corresponding sql query. depending on the type of answer the switch will handle differently every call, and redirect the flow into the correcto method. 
+This is the `Department handler` function which handles the input and executes the corresponding SQL query. Depending on the type of answer, the switch statement will handle each call differently and redirect the flow to the appropriate method.
+
 ```js
 function handler(db, type, data) {
     switch (type) {
@@ -510,7 +522,7 @@ module.exports = handler;
 
 **`getDepartment(db)`**
 
-This function recieves a db parameter, this has the connection instance, which will be used to connecto to the database and run the Query: `SELECT * from department;` and the result json will print as a table.
+This function receives a `db` parameter, which contains the connection instance. It uses this instance to connect to the database and execute the query: `SELECT * FROM department;`. The result JSON will be printed as a table.
 ```js
 function getDepartment(db) {
     const con = db.db();
@@ -531,7 +543,7 @@ function getDepartment(db) {
 
 **`getDepartmentBudget(db, data)`**
 
-This funtion recieves the db and data parameter, the db has the connection instance, and the data contains the answer data necessary to run the query with the wanted parameters. Using the query it selects a department_id, and sums every role salary with that department id.
+This function receives the `db` and `data` parameters. The `db` parameter contains the connection instance, and the `data` parameter contains the answer data necessary to run the query with the desired parameters. Using the provided query, it selects a `department_id` and sums the salaries of all roles associated with that department ID.
 It returns the result as a table.
 
 ```js
@@ -559,7 +571,8 @@ function getDepartmentBudget(db, data) {
 
 **`addDepartment(db, data)`**
 
-This funtion recieves the db and data parameter, the db has the connection instance, and the data contains the Department information necessary to add a new Department using the query with the data content. 
+This function receives the `db` and `data` parameters. The `db` parameter contains the connection instance, and the `data` parameter contains the department information necessary to add a new department. It uses the provided query along with the data content to execute the query and add a new department to the database.
+
 Query: `INSERT INTO department (department_name) VALUES (?);`
 
 ```js
@@ -587,7 +600,8 @@ function addDepartment(db, data) {
 
 **`modDepartment(db, data)`**
 
-This funtion recieves the db and data parameter, the db has the connection instance, and the data contains the answer data necessary to update the selected department. Using the query it gets the `id` and new `name` from the data.
+This function receives the `db` and `data` parameters. The `db` parameter contains the connection instance, and the `data` parameter contains the answer data necessary to update the selected department. It uses the provided query to extract the `id` and new `name` from the data, and then performs the necessary update operation on the department in the database.
+
 Query: `UPDATE department SET department_name=?" WHERE id=?;`
 
 ```js
@@ -614,8 +628,8 @@ function modDepartment(db, data) {
 
 **`delDepartment(db, data)`**
 
-This funtion recieves the `db` and `data` parameter, the db has the connection instance, and the `data` contains the selected id data necessary to delete the row that meets the parameters.
-Using the query it uses the department_id stored in the data variable and deletes the row.
+This function receives the `db` and `data` parameters. The `db` parameter contains the connection instance, and the `data` parameter contains the selected ID data necessary to delete the row that matches the specified parameters. It uses the provided query and the `department_id` stored in the `data` variable to delete the corresponding row from the database.
+
 Query: `DELETE FROM department WHERE id = ?;`
 
 ```js
@@ -637,7 +651,7 @@ function delDepartment(db, data) {
 
 **`delAllDepartment(db)`**
 
-This function recieves the db connection instance and deletes the entire table using the query: `DELETE FROM department`
+This function receives the connection instance `db` and deletes the entire table by executing the query: `DELETE FROM department`. It removes all the records and data present in the department table.
 
 ```js
 function delAllDepartment(db) {
@@ -656,7 +670,7 @@ function delAllDepartment(db) {
 ```
 **Roles Database Connection**
 
-This is the `Roles handler` function which takes care of the input and executes the corresponding sql query. depending on the type of answer the switch will handle differently every call, and redirect the flow into the correcto method. 
+This is the `Roles handler` function which handles the input and executes the corresponding SQL query. Depending on the type of answer, the switch statement will handle each call differently and redirect the flow to the appropriate method. The function ensures that the logic is executed correctly based on the user's input and performs the necessary operations accordingly.
 
 ```js
 function handler(db, type, data) {
@@ -683,8 +697,7 @@ function handler(db, type, data) {
 ```
 **`getRoles(db, data)`**
 
-
-This function recieves the db connection instance and data containing the parameters for order and sorting the output.
+This function receives the connection instance `db` and the `data` parameter containing the parameters for ordering and sorting the output. It uses these parameters to execute the SQL query and retrieve the desired results with the specified order and sorting.
 
 ```js
 function getRoles(db, data) {
@@ -709,7 +722,7 @@ function getRoles(db, data) {
 
 **`addRoles(db, data)`**
 
-This function recieves the db connection instance and data containing the necessary information to insert into the table.
+This function receives the connection instance `db` and the `data` parameter containing the necessary information to insert into the table. It uses the provided data to execute the SQL query and insert the specified information into the table.
 
 Query: `INSERT INTO role (title, salary, department_id) VALUES (?,?,?);`
 
@@ -738,7 +751,8 @@ function addRoles(db, data) {
 
 **`modRoles(db, data)`**
 
-This function recieves the db connection instance and data containing the necessary information to modify an existing role from the table.
+This function receives the connection instance `db` and the `data` parameter containing the necessary information to modify an existing role in the table. It utilizes the provided data to execute the SQL query and update the corresponding role with the specified information.
+
 Query: `UPDATE role SET title=?, salary=?, department_id=? WHERE id=?`
 
 ```js
@@ -766,8 +780,8 @@ function modRoles(db, data) {
 
 **`delRoles(db, data)`**
 
-This funtion recieves the `db` and `data` parameter, the db has the connection instance, and the `data` contains the selected role id data necessary to delete the row that meets the parameters. 
-Using the query it uses the role id stored in the data variable and deletes the row.
+This function receives the `db` and `data` parameters. The `db` parameter contains the connection instance, and the `data` parameter contains the selected role ID data necessary to delete the row that matches the specified parameters. It uses the provided query and the `role_id` stored in the `data` variable to delete the corresponding row from the database.
+
 Query: `DELETE FROM role WHERE id = ?;`
 
 ```js
@@ -787,7 +801,7 @@ function delRoles(db, data) {
 ```
 **`delAllRoles(db)`**
 
-This function recieves the db connection instance and deletes the entire table using the query: `DELETE FROM role`
+This function receives the connection instance `db` and deletes the entire table by executing the query: `DELETE FROM role`. It removes all the records and data present in the role table.
 
 ```js
 function delAllRoles(db) {
@@ -807,7 +821,7 @@ function delAllRoles(db) {
 
 **Employees Database Connection**
 
-This is the `Employees handler` function which takes care of the input and executes the corresponding sql query. depending on the type of answer the switch will handle differently every call, and redirect the flow into the correcto method. 
+This is the `Employees handler` function which handles the input and executes the corresponding SQL query. Depending on the type of answer, the switch statement will handle each call differently and redirect the flow to the appropriate method. The function ensures that the logic is executed correctly based on the user's input and performs the necessary operations accordingly.
 
 ```js
 function handler(db, type, data) {
@@ -835,11 +849,11 @@ function handler(db, type, data) {
 
 **`getEmployee(db, data)`**
 
-This function recieves the db connection instance and data containing the parameters for order and sorting the output.
-Depending on the sort value using a switch case, two variable will change values depedning in each case:
-* If all employees is selected it will show all employees 
-* If department is selected it will pass which department was selected, and filter out every employee not corresponding to that department.
-* If manager was selected, it will pass which manager id was selected, and return every employee corresponding to the manager.
+This function receives the connection instance `db` and the `data` parameter containing the parameters for ordering and sorting the output. Depending on the value of the `sort` parameter using a switch case, two variables will change their values in each case:
+
+* If "all employees" is selected, it will show all employees.
+* If "department" is selected, it will pass the selected department and filter out every employee that does not correspond to that department.
+* If "manager" is selected, it will pass the selected manager ID and return every employee corresponding to that manager.
 
 ```js
 function getEmployee(db, data) {
@@ -876,7 +890,7 @@ function getEmployee(db, data) {
 ```
 **`addEmployee(db, data)`**
 
-This function recieves the db connection instance and data containing the necessary information to insert the new employee into the table.
+This function receives the connection instance `db` and the `data` parameter containing the necessary information to insert a new employee into the table. It utilizes the provided data to execute the SQL query and add the specified employee information to the table.
 
 Query: `INSERT INTO employee (first_name, last_name, role_id, manager_id)  VALUES (?,?,?,?);`
 
@@ -906,7 +920,7 @@ function addEmployee(db, data) {
 
 **`modEmployee(db, data)`**
 
-This function recieves the db connection instance and data containing the necessary information to modify an existing employee from the table.
+This function receives the connection instance `db` and the `data` parameter containing the necessary information to modify an existing employee in the table. It uses the provided data to execute the SQL query and update the corresponding employee with the specified information.
 
 Query: `UPDATE employee SET first_name=?, last_name=?, role_id=?, manager_id=? WHERE id=?`
 
@@ -939,8 +953,8 @@ function modEmployee(db, data) {
 
 **`delEmployee(db, data)`**
 
-This funtion recieves the `db` and `data` parameter, the db has the connection instance, and the `data` contains the selected employee id necessary to delete the row that meets the parameters. 
-Using the query it uses the employee id stored in the data variable and deletes the row.
+This function receives the `db` and `data` parameters. The `db` parameter contains the connection instance, and the `data` parameter contains the selected employee ID necessary to delete the row that matches the specified parameters. It uses the provided query and the `employee_id` stored in the `data` variable to delete the corresponding row from the database.
+
 Query: `DELETE FROM employee WHERE id = ?;`
 
 
@@ -962,7 +976,7 @@ function delEmployee(db, data) {
 
 **`delAllEmployee(db)`**
 
-This function recieves the db connection instance and deletes the entire table using the query: `DELETE FROM employee`
+This function receives the connection instance `db` and deletes the entire table by executing the query: `DELETE FROM employee`. It removes all the records and data present in the employee table.
 
 ```js
 function delAllEmployee(db) {
@@ -981,9 +995,9 @@ function delAllEmployee(db) {
 ```
 **Persistent Data**
 
-The persistent_db is a script that constantly updates the lists for department, role and employee, this lists are use when making changes loads an updated list of the database state. This helps selecting a department or a role by name instad of id number, and everything else too, As to which employee is selected to update, delete, or to be manager.
+The `persistent_db` script continuously updates the lists for departments, roles, and employees. These lists are used to load an updated state of the database when making changes. This helps in selecting a department or role by name instead of an ID number, as well as other functionalities such as determining which employee is selected for updates, deletions, or as a manager.
 
-The functionality of the script is using mysql and fs, it get the actual data from the database, and saves that data as a json in a .json file. These json files is accessed from the inquire questions.
+The script utilizes MySQL and the `fs` module. It retrieves the current data from the database and saves it as a JSON file. These JSON files are then accessed from the inquirer questions, allowing for seamless integration with the user interface.
 
 ```js
 const mysql = require('mysql');
