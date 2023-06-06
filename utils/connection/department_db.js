@@ -30,7 +30,7 @@ function getDepartment(db) {
             console.error('Error connecting to the database:', err);
             return;
         }
-        const sqlQuery = " SELECT * from department;";
+        const sqlQuery = " SELECT id AS 'ID', department_name as 'Department Name' FROM department;";
         con.query(sqlQuery, (err, result, fields) => {
             // console.log(result);
             // console.log(fields);
@@ -50,7 +50,7 @@ function getDepartmentBudget(db, data) {
             console.error('Error connecting to the database:', err);
             return;
         }
-        const sqlQuery = `SELECT d.department_name AS department, SUM(r.salary) AS total_budget FROM department d JOIN role r ON d.id = r.department_id JOIN employee e ON r.id = e.role_id WHERE d.id = ${data.id} GROUP BY d.department_name;`;
+        const sqlQuery = `SELECT d.department_name AS 'Department', SUM(r.salary) AS 'Total Budget' FROM department d JOIN role r ON d.id = r.department_id JOIN employee e ON r.id = e.role_id WHERE d.id = ${data.id} GROUP BY d.department_name;`;
         con.query(sqlQuery, (err, result, fields) => {
             // console.log(result);
             // console.log(fields);

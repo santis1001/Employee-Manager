@@ -42,7 +42,7 @@ function getEmployee(db, data) {
                 break;
         }
 
-        const sqlQuery = `SELECT e.id AS ID, CONCAT(e.first_name, ' ', e.last_name) AS "Employee Name", d.department_name AS "Department" , r.title AS "Roles", r.salary AS "Salary", CONCAT(m.first_name, ' ', m.last_name) AS "Manager" FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id${filter}ORDER BY ${sort} ${data.order};`;
+        const sqlQuery = `SELECT e.id AS ID, CONCAT(e.first_name, ' ', e.last_name) AS "Employee Name", d.department_name AS "Department" , r.title AS "Title", r.salary AS "Salary", CONCAT(m.first_name, ' ', m.last_name) AS "Manager" FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id${filter}ORDER BY ${sort} ${data.order};`;
         con.query(sqlQuery, (err, result, fields) => {
             // console.log(result); 
             // console.log(fields);

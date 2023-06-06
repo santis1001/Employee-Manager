@@ -115,7 +115,8 @@ const roles_questions = [
         message: 'Select Department: ',
         default: (answers) => {
             const selectedDepartment = rolelist.find(item => item.id === answers.roles_mod);
-            const selectedDepartmentIndex = rolelist.indexOf(selectedDepartment);
+            const selectedDepartmentObj = deplist.find(dep => dep.id === selectedDepartment.department_id)
+            const selectedDepartmentIndex = deplist.indexOf(selectedDepartmentObj);
             return selectedDepartmentIndex !== -1 ? selectedDepartmentIndex : 0;
         },
         choices: deplist.map(item => ({

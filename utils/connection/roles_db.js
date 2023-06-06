@@ -29,8 +29,8 @@ function getRoles(db, data) {
         }
         let sqlQuery =
             (data.sort = 'department_name')
-                ? `SELECT role.title, role.salary, department.department_name FROM role JOIN department ON role.id = department.id ORDER BY department.${data.sort} ${data.order};`
-                : `SELECT role.title, role.salary, department.department_name FROM role JOIN department ON role.id = department.id ORDER BY role.${data.sort} ${data.order};`;
+                ? `SELECT role.id AS 'ID', role.title AS 'Role', role.salary AS 'Salary', department.department_name AS 'Department' FROM role JOIN department ON role.id = department.id ORDER BY department.${data.sort} ${data.order};`
+                : `SELECT role.id AS 'ID', role.title AS 'Role', role.salary AS 'Salary', department.department_name AS 'Department' FROM role JOIN department ON role.id = department.id ORDER BY role.${data.sort} ${data.order};`;
 
         // console.log(sqlQuery);
         con.query(sqlQuery, (err, result, fields) => {

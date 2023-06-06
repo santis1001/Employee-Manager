@@ -87,20 +87,33 @@ const emp_questions = [
         type: 'list',
         name: 'role_add',
         message: 'Enter employee role: ',
-        choices: rolelist.map(item => ({
-            name: item.id + ': ' + item.title + ' ' + item.department_id,
-            value: item.id
-        })),
+        choices: rolelist.map(item => {
+            const role = rolelist.find(role => role.department_id === item.department_id);
+            const dep = deplist.find(dept => dept.id === role.department_id);
+            const departmentName = dep ? dep.department_name : 'Unknown Department';
+    
+            return {
+                name: item.id + ': ' + item.title + ' - ' + departmentName,
+                value: item.id
+            }
+        }),
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
         type: 'list',
         name: 'manager_add',
         message: 'Enter employee manager: ',
-        choices: emplist.map(item => ({
-            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
-            value: item.id
-        })),
+        choices: ()=>{
+            let choices_list = emplist.map(item => ({
+                 name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+                 value: item.id
+             }));
+             choices_list.push({
+                     name: 'None',
+                     value: null
+                 });
+             return choices_list;
+         },
         when: (answers) => answers.employees_op === 'Add Employee'
     },
     {
@@ -144,14 +157,21 @@ const emp_questions = [
         name: 'role_up',
         message: 'Enter employee role: ',        
         default: (answers) => {
-            const selectedEmployee = rolelist.find(item => item.id === answers.roles_mod);
-            const selectedEmployeeIndex = rolelist.indexOf(selectedEmployee);
-            return selectedEmployeeIndex !== -1 ? selectedEmployeeIndex : 0;
+            const selectedEmployee = emplist.find(item => item.id == answers.select_emp);
+            const selectedEmployeeIndex = rolelist.find(role => role.id == selectedEmployee.role_id);
+            const selectedRole = rolelist.indexOf(selectedEmployeeIndex);            
+            return selectedRole !== -1 ? selectedRole : 0;
         },
-        choices: rolelist.map(item => ({
-            name: item.id + ': ' + item.title,
-            value: item.id
-        })),
+        choices: rolelist.map(item => {
+            const role = rolelist.find(role => role.department_id === item.department_id);
+            const dep = deplist.find(dept => dept.id === role.department_id);
+            const departmentName = dep ? dep.department_name : 'Unknown Department';
+    
+            return {
+                name: item.id + ': ' + item.title + ' - ' + departmentName,
+                value: item.id
+            }
+        }),
         when: (answers) => answers.employees_op === 'Update Employee'
     },
     {
@@ -159,14 +179,22 @@ const emp_questions = [
         name: 'manager_up',
         message: 'Enter employee manager: ',        
         default: (answers) => {
-            const selectedEmployee = emplist.find(item => item.id === answers.roles_mod);
-            const selectedEmployeeIndex = rolelist.indexOf(selectedEmployee);
-            return selectedEmployeeIndex !== -1 ? selectedEmployeeIndex : 0;
+            const selectedEmployee = emplist.find(item => item.id === answers.select_emp);
+            const selectedEmployeeIndex = emplist.find(item => item.id == selectedEmployee.manager_id);
+            const selectedManager = emplist.indexOf(selectedEmployeeIndex);
+            return selectedManager !== -1 ? selectedManager : 0;            
         },
-        choices: emplist.map(item => ({
-            name: item.id + ': ' + item.first_name + ' ' + item.last_name,
-            value: item.id
-        })),
+        choices: ()=>{
+           let choices_list = emplist.map(item => ({
+                name: item.id + ': ' + item.first_name + ' ' + item.last_name,
+                value: item.id
+            }));
+            choices_list.push({
+                    name: 'None',
+                    value: null
+                });
+            return choices_list;
+        },
         when: (answers) => answers.employees_op === 'Update Employee'
     },
     {
