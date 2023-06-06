@@ -856,7 +856,7 @@ function getEmployee(db, data) {
                 break;
         }
 
-        const sqlQuery = `SELECT e.id AS employee_id, e.first_name AS employee_first_name,e.last_name AS employee_last_name, r.title AS employee_role, d.department_name AS role_department, m.first_name AS manager_first_name, m.last_name AS manager_last_name FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id${filter}ORDER BY ${sort} ${data.order};`;
+        const sqlQuery = `SELECT e.id AS ID, CONCAT(e.first_name, ' ', e.last_name) AS "Employee Name", d.department_name AS "Department" , r.title AS "Roles", r.salary AS "Salary", CONCAT(m.first_name, ' ', m.last_name) AS "Manager" FROM employee e LEFT JOIN employee m ON e.manager_id = m.id JOIN role r ON e.role_id = r.id JOIN department d ON r.department_id = d.id${filter}ORDER BY ${sort} ${data.order};`;
         con.query(sqlQuery, (err, result, fields) => {
             console.log('\n');
             console.table(result);
@@ -1011,10 +1011,17 @@ module.exports = init;
 ```
 
 ## ScreenShots
-<!-- ![Index img](./assets/screenshots/mainscreen.png)
-![Emply note list img](./assets/screenshots/emptynotes.png)
-![One Entry list img](./assets/screenshots/oneentrynotes.png) -->
+**Main Menu Screen**
+![Main Menu img](./assets/screenshots/main_menu.PNG)
 
+**Employees Menu Screen**
+![Employees menu img](./assets/screenshots/employees_menu.PNG)
+
+**Roles Menu Screen**
+![Roles Menu img](./assets/screenshots/roles_menu.PNG) 
+
+**Department Menu Screen**
+![Department Menu img](./assets/screenshots/department_menu.PNG) 
 
 ## Video
 <!--[![SVG Logo Generator Video](./assets/Images/video_preview.png)](https://1drv.ms/v/s!Asj9JhD05ulbsmX9vv-NrVazJf3s?e=akXML8)
